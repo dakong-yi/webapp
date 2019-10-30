@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    <mvc:annotation-driven />-->
+    <!-- 4.扫描web相关的controller -->
+<!--    <context:component-scan base-package="admin"/>-->
+    <!-- 2.静态资源默认servlet配置
+        (1)加入对静态资源的处理：js,gif,png
+        (2)允许使用"/"做整体映射
+     -->
+<!--    <mvc:default-servlet-handler/>-->
+
+<!--     3. 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.JstlView"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp"/>
+    <context:component-scan base-package="admin"/>
+
+    <!--引入数据库配置文件jdbc.properties-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <context:property-placeholder location="classpath:log4j.properties"/>
+
+    <!--配置数据源-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driver}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}"/>
+<!--    <bean id="userMapperImpl" class="admin.mapper.UserMapperImpl"-->
+<!--        p:sqlSessionFactory-ref="sqlSessionFactory"-->
+<!--    />-->
+<!--    <bean id="roleMapperImpl" class="admin.mapper.RoleMapperImpl"-->
+<!--        p:sqlSessionFactory-ref="sqlSessionFactory"-->
+<!--    />-->
+
+    <!--
+        配置SqlSessionFactory对象
+
+        1).注入数据库连接池
+        2).配置MyBaties全局配置文件:mybatis-config.xml
+        3).扫描model包 使用别名
+        4).扫描sql配置文件:mapper需要的xml文件
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:conf/mybatis-config.xml"
+        p:mapperLocations="classpath:mapper/*.xml"
+    />
+    <!--
+        spring与mybatis整合配置，动态实现 mapper 接口，注入到 spring 容器中
+
+        1).注入sqlSessionFactory
+        2).给出需要扫描 mapper 接口包
+    -->
+<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"-->
+<!--          p:sqlSessionFactoryBeanName="sqlSessionFactory"-->
+<!--          p:basePackage="admin.mapper"/>-->
+
+    <!-- mybatis spring sqlSessionTemplate,使用时直接让spring注入即可 -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <!-- 对数据源进行事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"
+    />
+
+</beans>

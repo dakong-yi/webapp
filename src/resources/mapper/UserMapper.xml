@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="UserMapper">
+<!--    <resultMap id="userMap"  type="admin.model.User">-->
+<!--        <id property="id" column="id" javaType="int"/>-->
+<!--        <result property="name" column="name" javaType="String"/>-->
+<!--        <result property="psw" column="psw" javaType="String"/>-->
+<!--        <result property="email" column="email" javaType="String"/>-->
+<!--        <result property="creator" column="creator" javaType="Integer"/>-->
+<!--    </resultMap>-->
+    <select id="getUser" resultType="admin.model.User" parameterType="java.lang.Integer" >
+        select
+            id, name, psw, email, creator,update_user,flag,update_time,last_login_time
+        from db_vue_admin.tb_admin_user
+        where id = #{id}
+    </select>
+    <select id="getUsers" resultType="admin.model.User" parameterType="java.lang.Integer" >
+        select
+            id, name, psw, email, creator,update_user,flag,update_time,last_login_time
+        from db_vue_admin.tb_admin_user
+    </select>
+    <insert id="insertUser" parameterType="admin.model.User">
+        insert into db_vue_admin.tb_admin_user
+        (name, psw, email, creator, flag, last_login_time, update_user, update_time)
+        values (#{name}, #{psw}, #{email},
+                #{creator}, #{flag}, #{last_login_time},
+                #{update_user}, #{update_time}
+               )
+    </insert>
+    <delete id="deleteUser" parameterType="admin.model.User" >
+        delete from db_vue_admin.tb_admin_user where id = #{id}
+    </delete>
+    <update id="updateUser" parameterType="admin.model.User" >
+        update db_vue_admin.tb_admin_user
+        set
+            name = #{name,jdbcType=VARCHAR},
+            psw = #{psw,jdbcType=VARCHAR},
+            email = #{email,jdbcType=VARCHAR},
+            last_login_time = #{last_login_time,jdbcType=TIMESTAMP},
+            update_user = #{update_user,jdbcType=INTEGER},
+            update_time = #{update_time,jdbcType=TIMESTAMP},
+            flag = #{flag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

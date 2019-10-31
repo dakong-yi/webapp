@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MenuMapper">
+    <select id="getMenus" resultType="admin.model.Menu" parameterType="java.lang.Integer" >
+        select
+            id, title, url, icon, menu_type, display, parent_id, creator, create_time, update_user, update_time, status
+        from db_vue_admin.tb_menu
+    </select>
+    <insert id="insertMenu" parameterType="admin.model.Menu">
+        insert into db_vue_admin.tb_menu
+        (title, url, icon, menu_type, display, parent_id, creator, create_time, update_user, update_time, status)
+        values (#{title}, #{url}, #{icon},
+                #{menu_type}, #{display}, #{parent_id},
+                #{creator}, #{create_time},
+                #{update_user}, #{update_time}, #{status}
+               )
+    </insert>
+    <delete id="deleteMenu" parameterType="java.lang.Integer">
+        delete from db_vue_admin.tb_menu where id = #{id}
+    </delete>
+    <update id="updateMenu" parameterType="admin.model.Menu" >
+        update db_vue_admin.tb_menu
+        set
+            title = #{title},
+            url = #{url},
+            icon = #{icon},
+            menu_type = #{menu_type},
+            display = #{display},
+            parent_id = #{parent_id},
+            creator = #{creator},
+            create_time = #{create_time},
+            update_user = #{update_user},
+            update_time = #{update_time}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>

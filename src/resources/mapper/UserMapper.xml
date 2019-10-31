@@ -44,4 +44,8 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <select id="login" resultType="java.lang.Integer">
+        select count(*) from db_vue_admin.tb_admin_user where name= #{name} and psw = #{psw}
+    </select>
+
 </mapper>

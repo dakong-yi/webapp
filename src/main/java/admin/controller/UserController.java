@@ -1,16 +1,17 @@
 package admin.controller;
 
-import admin.mapper.UserMapper;
 import admin.model.User;
 import admin.service.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/User", method = { RequestMethod.GET, RequestMethod.POST })
+@RequestMapping(value = "/user", method = {RequestMethod.GET, RequestMethod.POST})
 public class UserController {
     @Autowired
     private UserService userService;
@@ -78,5 +79,14 @@ public class UserController {
     public int deleteUser(@PathVariable Integer id) throws Exception {
         return userService.deleteUser(id);
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Integer login(@RequestBody Map<String, String> userMap) {
+        System.out.println(userMap.get("username") + userMap.get("password") );
+        String username = userMap.get("username");
+        String password = userMap.get("password");
+        return userService.login(username, password);
+    }
+
 
 }

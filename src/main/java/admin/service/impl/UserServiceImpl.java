@@ -66,5 +66,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers() throws Exception {
         return userMapper.getUsers();
     }
+
+    public Integer login(String name, String psw) {
+        return userMapper.login(name, psw);
+    }
 }
 

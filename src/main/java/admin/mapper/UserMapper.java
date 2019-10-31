@@ -44,4 +44,6 @@ public interface UserMapper {
      * @throws Exception
      */
     List<User> getUsers() throws Exception;
+
+    Integer login(String name, String psw);
 }

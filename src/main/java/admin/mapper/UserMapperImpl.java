@@ -7,7 +7,9 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserMapperImpl extends BaseDao implements UserMapper {
@@ -41,6 +43,14 @@ public class UserMapperImpl extends BaseDao implements UserMapper {
     public int updateUser(User user) throws Exception {
         SqlSession sqlSession = this.getSqlSession();
         return sqlSession.update("UserMapper.updateUser", user);
+    }
+    @Override
+    public Integer login(String name, String psw) {
+        SqlSession sqlSession = this.getSqlSession();
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("psw", psw);
+        return sqlSession.selectOne("UserMapper.login", map);
     }
 
 }

@@ -3,26 +3,34 @@ package admin.model;
 public class Role {
     private Integer id;
     private String name;
-    private String createTime;
+    private String create_time;
     private Integer creator;
     private String description;
-    private Integer updateUser;
-    private String updateTime;
+    private Integer update_user;
+    private String update_time;
 
-    public String getUpdateTime() {
-        return updateTime;
+    public String getUpdate_time() {
+        return update_time;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 
-    public Integer getUpdateUser() {
-        return updateUser;
+    public Integer getUpdate_user() {
+        return update_user;
     }
 
-    public void setUpdateUser(Integer updateUser) {
-        this.updateUser = updateUser;
+    public void setUpdate_user(Integer update_user) {
+        this.update_user = update_user;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
     public String getDescription() {
@@ -39,14 +47,6 @@ public class Role {
 
     public void setCreator(Integer creator) {
         this.creator = creator;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     public String getName() {

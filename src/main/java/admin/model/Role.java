@@ -1,5 +1,7 @@
 package admin.model;
 
+import java.util.List;
+
 public class Role {
     private Integer id;
     private String name;
@@ -8,6 +10,15 @@ public class Role {
     private String description;
     private Integer update_user;
     private String update_time;
+    private List<RoleMenu> roleMenus;
+
+    public List<RoleMenu> getRoleMenus() {
+        return roleMenus;
+    }
+
+    public void setRoleMenus(List<RoleMenu> roleMenus) {
+        this.roleMenus = roleMenus;
+    }
 
     public String getUpdate_time() {
         return update_time;

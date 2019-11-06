@@ -2,18 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="UserMapper">
-<!--    <resultMap id="userMap"  type="admin.model.User">-->
-<!--        <id property="id" column="id" javaType="int"/>-->
-<!--        <result property="name" column="name" javaType="String"/>-->
-<!--        <result property="psw" column="psw" javaType="String"/>-->
-<!--        <result property="email" column="email" javaType="String"/>-->
-<!--        <result property="creator" column="creator" javaType="Integer"/>-->
-<!--    </resultMap>-->
-    <select id="getUser" resultType="admin.model.User" parameterType="java.lang.Integer" >
+    <resultMap id="userMap"  type="admin.model.User">
+        <id property="id" column="uid" javaType="int"/>
+        <result property="name" column="name" javaType="String"/>
+        <result property="psw" column="psw" javaType="String"/>
+        <result property="email" column="email" javaType="String"/>
+        <result property="creator" column="creator" javaType="Integer"/>
+        <result property="role_id" column="role_id" javaType="Integer"/>
+        <association property="role" javaType="admin.model.Role" >
+            <id property="id" column="roleId"/>
+            <result property="name" column="roleName"/>
+        </association>
+    </resultMap>
+    <select id="getUser" resultMap="userMap" parameterType="java.lang.Integer" >
         select
-            id, name, psw, email, creator,update_user,flag,update_time,last_login_time
-        from db_vue_admin.tb_admin_user
-        where id = #{id}
+            u.id uid, u.name name,r.name as roleName,r.id as roleId
+        from db_vue_admin.tb_admin_user u
+        left join db_vue_admin.tb_role r on r.id = u.role_id
+        where u.id = #{id}
     </select>
     <select id="getUsers" resultType="admin.model.User" parameterType="java.lang.Integer" >
         select

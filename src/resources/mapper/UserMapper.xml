@@ -16,7 +16,7 @@
     </resultMap>
     <select id="getUser" resultMap="userMap" parameterType="java.lang.Integer" >
         select
-            u.id uid, u.name name,r.name as roleName,r.id as roleId
+            u.*,r.name as roleName,r.id as roleId
         from db_vue_admin.tb_admin_user u
         left join db_vue_admin.tb_role r on r.id = u.role_id
         where u.id = #{id}
